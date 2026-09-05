@@ -1,0 +1,8 @@
+# macOS artifact
+.DS_Store
+
+# Vim swap files
+*.swp
+
+# Environment variables
+.env

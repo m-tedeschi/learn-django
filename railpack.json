@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schema.railpack.com",
+  "packages": {
+    "node": "22"
+  },
+  "steps": {
+    "install": {
+      "commands": [
+        "...",
+        "cd frontend && npm ci"
+      ]
+    },
+    "build": {
+      "commands": [
+        "...",
+        "cd frontend && npm run build",
+        "python manage.py collectstatic --noinput"
+      ]
+    }
+  },
+  "deploy": {
+    "startCommand": "python manage.py migrate && gunicorn --bind 0.0.0.0:${PORT:-8000} config.wsgi:application"
+  }
+}

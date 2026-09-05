@@ -168,6 +168,18 @@ python manage.py migrate
 If Django tries to connect to `localhost:5432` on Railway, `DATABASE_URL` is not
 being read by the deployed code or is not set on the Django service.
 
+## Production start command
+
+For Railway, the Django service start command should run migrations and then
+start Gunicorn:
+
+```bash
+python manage.py migrate && gunicorn config.wsgi
+```
+
+Gunicorn is the production WSGI server for Django. It is listed in
+`requirements.txt` so Railway installs it during deployment.
+
 The `server.sh` script starts PostgreSQL for you, but the underlying command is:
 
 ```bash

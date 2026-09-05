@@ -1,9 +1,17 @@
+providers = ["python", "node"]
+
 [phases.setup]
-nixPkgs = ["python313", "nodejs_22", "npm"]
+nixPkgs = ["python313", "nodejs_22"]
+
+[phases.install]
+cmds = [
+  "python -m pip install -r requirements.txt",
+  "cd frontend && npm ci",
+]
 
 [phases.build]
 cmds = [
-  "cd frontend && npm ci && npm run build",
+  "cd frontend && npm run build",
   "python manage.py collectstatic --noinput",
 ]
 

@@ -133,8 +133,13 @@ Django applies unapplied migrations to the PostgreSQL database.
 
 ## PostgreSQL settings
 
-Django connects to PostgreSQL by default. If you do not provide environment
-variables, it uses these local development values:
+Django connects to PostgreSQL by default.
+
+In production, set `DATABASE_URL` to the database connection URL from your host.
+Railway's PostgreSQL service provides this value.
+
+For local development, if you do not provide `DATABASE_URL`, Django uses these
+defaults:
 
 - database: `learn_django`
 - user: `postgres`
@@ -145,6 +150,13 @@ variables, it uses these local development values:
 You can override them when running Django:
 
 ```bash
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/learn_django \
+python manage.py migrate
+```
+
+Or override the individual local settings:
+
+```bash
 POSTGRES_DB=learn_django \
 POSTGRES_USER=postgres \
 POSTGRES_PASSWORD=postgres \
@@ -152,6 +164,9 @@ POSTGRES_HOST=localhost \
 POSTGRES_PORT=5432 \
 python manage.py migrate
 ```
+
+If Django tries to connect to `localhost:5432` on Railway, `DATABASE_URL` is not
+being read by the deployed code or is not set on the Django service.
 
 The `server.sh` script starts PostgreSQL for you, but the underlying command is:
 

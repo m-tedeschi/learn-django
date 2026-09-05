@@ -16,7 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf import settings
-from django.urls import include, path
+from django.urls import include, path, re_path
+from django.views.generic import TemplateView
 
 admin.site.site_url = settings.FRONTEND_URL
 admin.site.site_header = "Learning Django Admin"
@@ -26,4 +27,5 @@ admin.site.index_title = "Dashboard"
 urlpatterns = [
     path('', include('books.urls')),
     path('admin/', admin.site.urls),
+    re_path(r'^(?!api/|admin/).*$', TemplateView.as_view(template_name='index.html'), name='frontend'),
 ]

@@ -1,7 +1,29 @@
 import importlib
 import os
+import unittest
+from pathlib import Path
 from unittest import TestCase
 from unittest.mock import patch
+
+from django.test import SimpleTestCase
+
+
+FRONTEND_INDEX = Path(__file__).resolve().parent.parent / 'frontend' / 'dist' / 'index.html'
+
+
+@unittest.skipUnless(FRONTEND_INDEX.exists(), 'frontend must be built before testing SPA routes')
+class FrontendRouteTests(SimpleTestCase):
+    def test_root_serves_vue_app(self):
+        response = self.client.get('/')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '<div id="app"></div>', html=True)
+
+    def test_vue_route_serves_vue_app(self):
+        response = self.client.get('/books')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '<div id="app"></div>', html=True)
 
 
 class DatabaseUrlSettingsTests(TestCase):

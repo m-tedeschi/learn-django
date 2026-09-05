@@ -11,6 +11,7 @@
 __pycache__/
 *.py[cod]
 .venv/
+staticfiles/
 
 # Local server runtime files
 .django.pid

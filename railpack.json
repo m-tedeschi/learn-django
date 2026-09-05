@@ -4,15 +4,10 @@
     "node": "22"
   },
   "steps": {
-    "install": {
-      "commands": [
-        "...",
-        "cd frontend && npm ci"
-      ]
-    },
     "build": {
       "commands": [
         "...",
+        "cd frontend && npm ci",
         "cd frontend && npm run build",
         "python manage.py collectstatic --noinput"
       ]

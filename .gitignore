@@ -6,3 +6,18 @@
 
 # Environment variables
 .env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Local server runtime files
+.django.pid
+.django.log
+.vite.pid
+.vite.log
+
+# Frontend
+frontend/node_modules/
+frontend/dist/

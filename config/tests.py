@@ -24,3 +24,24 @@ class DatabaseUrlSettingsTests(TestCase):
         self.assertEqual(database['PASSWORD'], 'secret')
         self.assertEqual(database['HOST'], 'postgres.railway.internal')
         self.assertEqual(database['PORT'], 5432)
+
+    def test_production_host_settings_come_from_environment(self):
+        with patch.dict(
+            os.environ,
+            {
+                'DEBUG': '0',
+                'ALLOWED_HOSTS': 'example.up.railway.app,api.example.com',
+                'CSRF_TRUSTED_ORIGINS': 'https://example.up.railway.app',
+            },
+        ):
+            settings = importlib.reload(importlib.import_module('config.settings'))
+
+        self.assertFalse(settings.DEBUG)
+        self.assertEqual(
+            settings.ALLOWED_HOSTS,
+            ['example.up.railway.app', 'api.example.com'],
+        )
+        self.assertEqual(
+            settings.CSRF_TRUSTED_ORIGINS,
+            ['https://example.up.railway.app'],
+        )

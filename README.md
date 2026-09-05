@@ -174,11 +174,24 @@ For Railway, the Django service start command should run migrations and then
 start Gunicorn:
 
 ```bash
-python manage.py migrate && gunicorn config.wsgi
+python manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
 ```
 
 Gunicorn is the production WSGI server for Django. It is listed in
 `requirements.txt` so Railway installs it during deployment.
+
+Set these environment variables on the Railway Django service:
+
+- `DATABASE_URL`: Railway PostgreSQL connection URL.
+- `DEBUG`: `0`.
+- `SECRET_KEY`: a long random secret value.
+- `ALLOWED_HOSTS`: your Railway app host, for example `your-app.up.railway.app`.
+- `FRONTEND_URL`: your frontend URL.
+- `CSRF_TRUSTED_ORIGINS`: your frontend URL with `https://`.
+
+Gunicorn startup messages may appear under Railway's error log stream because
+Gunicorn writes them to stderr. Lines like `Starting gunicorn`, `Listening at`,
+and `Booting worker` are normal startup messages.
 
 The `server.sh` script starts PostgreSQL for you, but the underlying command is:
 
